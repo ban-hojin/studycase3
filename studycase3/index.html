@@ -34,26 +34,27 @@
             z-index: 1; /* Ensure the container is above the overlay */
         }
 
-        .logo {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
+        .button-container {
+            position: absolute;
+            bottom: 30px; /* Move buttons to the bottom */
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .btn-custom {
             margin: 10px;
-            padding: 15px 60px; /* Reduced height by 50% but doubled length */
-            font-size: 20px; /* Reduced font size by 50% */
+            padding: 10px 120px; /* Thinner and longer buttons */
+            font-size: 16px; /* Reduced font size */
             border-radius: 5px;
-            color: #6c757d; /* Gray color for buttons */
-            border: 2px solid #6c757d; /* Matching border color */
+            color: white; /* White color for buttons */
+            border: 2px solid white; /* Matching border color */
             background-color: transparent; /* Transparent background */
             transition: background-color 0.3s, color 0.3s;
         }
 
         .btn-custom:hover {
-            background-color: #6c757d; /* Gray color on hover */
-            color: white; /* White text on hover */
+            background-color: white; /* White background on hover */
+            color: black; /* Black text on hover */
         }
     </style>
 </head>
@@ -61,7 +62,7 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="button-container">
-            <a href="index1.html" class="btn btn-custom">Mine</a>
+            <a href="index1.html" class="btn btn-custom">Jessy</a>
             <a href="index2.html" class="btn btn-custom">Agent</a>
         </div>
     </div>

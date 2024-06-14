@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessy Chatbot Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f1f5f9;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .badge {
+            background-color: #e5e7eb;
+            color: #6b7280;
+            font-size: 10px;
+            padding: 2px 4px;
+            margin-left: 5px;
+            border-radius: 3px;
+        }
+
+        .title img {
+            max-height: 50px; /* Adjust the height as needed */
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .action-icon {
+            font-size: 20px;
+            margin-left: 20px;
+            color: #6b7280;
+        }
+
+        .action-text {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .profile {
+            background-color: #14b8a6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .body-content {
+            display: flex;
+            background-color: #f1f5f9;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .side-menu {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background-color: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            width: 220px; /* Increased by 10% */
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #1f2937;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .chat-container:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-header {
+            height: 15%; /* Takes up 15% of the container height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .chat {
+            height: 60%; /* Adjusted to make room for the larger source section */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            background-color: #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .chat-message.user {
+            background-color: #d1ecf1;
+            align-self: flex-start;
+        }
+
+        .chat-message.bot {
+            background-color: #f8d7da;
+            align-self: flex-end;
+        }
+
+        .message-content {
+            padding-bottom: 20px; /* Reserve space for the source */
+        }
+
+        .message-source {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            width: 100%;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .input-group textarea {
+            flex: 1;
+            margin-right: 10px;
+            border-radius: 15px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group textarea:focus, .input-group textarea:hover {
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
+
+        .placeholder-text {
+            color: #9ca3af;
+            font-size: 18px;
+        }
+
+        .history-container {
+            display: flex;
+            flex-direction: column;
+            width: 220px; /* Same width as the side-menu */
+            padding: 10px;
+            background-color: #f1f5f9;
+            border-left: 1px solid #e2e8f0;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .history-item .date-time {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .management-actions {
+            padding: 10px;
+            border-top: 1px solid #e2e8f0;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .management-actions button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .management-actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .source-info {
+            padding: 20px; /* Doubled the padding */
+            background-color: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #6c757d;
+            text-align: center; /* Center the text */
+
+            .cms-box {
+                padding: 15px;
+                margin-top: 10px;
+                background-color: #f8f9fa;
+                border: 1px solid #e2e8f0;
+                border-radius: 5px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+
+
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <span class="menu-icon">&#9776;</span> 
+            <span class="logo-text">Jessy <span class="badge">EXPERIMENTAL</span></span>
+        </div>
+        <div class="title">
+            <img src="/mnt/data/A_professional,_sleek_logo_for_a_service_called_'J.png" alt="Jessy Logo">
+        </div>
+        <div class="actions">
+            <span class="action-icon sun">&#9728;</span>
+            <span class="action-icon question">&#63;</span>
+            <span class="action-icon comments">&#128172;</span>
+            <span class="action-icon shared">&#128279;</span>
+            <span class="action-text">공유</span>
+            <span class="profile">호진</span>
+        </div>
+    </div>
+    <div class="body-content">
+        <div class="side-menu">
+            <div class="menu-item">
+                <span class="menu-icon">&#128274;</span> 
+                <span class="menu-text">소스</span>
+            </div>
+            <div class="menu-item">
+                <span class="menu-icon">&#43;</span>
+            </div>
+            <div class="menu-item">
+                <span class="menu-text">모든 소스 선택</span>
+                <input type="checkbox" checked>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="placeholder-text">Your saved notes will appear here.</div>
+            </div>
+            <div class="chat" id="chat">
+                <div class="chat-message user">
+                    <div class="message-content">
+                        User: Hello, how can I help you?
+                    </div>
+                    <div class="message-source">Source: User input</div>
+                </div>
+                <div class="chat-message bot">
+                    <div class="message-content">
+                        Bot: I am here to assist you with your inquiries.
+                    </div>
+                    <div class="message-source">Source: Chatbot response</div>
+                </div>
+            </div>
+            <div class="source-info">
+                Chatbot response source will be displayed here. Data has been loaded.
+            </div>
+            <div class="input-group">
+                <textarea id="userInput" class="form-control" rows="2" placeholder="Enter your message here..."></textarea>
+            </div>
+        </div>
+        <div class="history-container">
+            <div class="history-item">
+                <div class="date-time">2024-06-14 10:00 AM</div>
+                Conversation 1
+            </div>
+            <div class="history-item">
+                <div class="date-time">2024-06-13 02:30 PM</div>
+                Conversation 2
+            </div>
+            <div class="history-item">
+                <div class="date-time">2024-06-12 09:45 AM</div>
+                Conversation 3
+                <div class="cms-box">
+                    <!-- CMS functionality content goes here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
